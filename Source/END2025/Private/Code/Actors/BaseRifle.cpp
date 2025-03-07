@@ -117,3 +117,8 @@ bool ABaseRifle::CanShoot() const
 	return !ActionHappening;
 }
 
+void ABaseRifle::HandleActionFinished()
+{
+	OnActionStopped.Broadcast();
+}
+

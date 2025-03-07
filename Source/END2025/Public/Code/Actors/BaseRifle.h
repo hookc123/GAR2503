@@ -5,6 +5,7 @@
 #include "BaseRifle.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCallOnRifleAttack);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCallOnActionStopped);
 
 UCLASS()
 class END2025_API ABaseRifle : public AActor
@@ -60,6 +61,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = Delagate)
 	FCallOnRifleAttack CallOnRifleAttack;
 
+	UPROPERTY(BlueprintAssignable, Category = Delagate)
+	FCallOnActionStopped OnActionStopped;
+
 	bool Alive = true;
 
 
@@ -68,4 +72,5 @@ private:
 	bool CanShoot() const;
 	bool ActionHappening;
 
+	void HandleActionFinished();
 };

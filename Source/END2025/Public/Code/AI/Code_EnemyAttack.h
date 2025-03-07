@@ -4,30 +4,28 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "MyBTTask_FindLocation.generated.h"
+#include "Code_EnemyAttack.generated.h"
 
 /**
  * 
  */
 UCLASS()
-
-class END2025_API UMyBTTask_FindLocation : public UBTTaskNode
+class END2025_API UCode_EnemyAttack : public UBTTaskNode
 {
 	GENERATED_BODY()
-	
+
 public:
+
 
 
 protected:
 
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)override;
 
+	UPROPERTY(EditDefaultsOnly)
+	FName FinishedMessage;
+
 private:
 
-	UPROPERTY(EditDefaultsOnly)
-	float Radius = 1000.0f;
-
-	UPROPERTY(EditDefaultsOnly)
-	FName LocationName = "Location";
-
+	
 };
