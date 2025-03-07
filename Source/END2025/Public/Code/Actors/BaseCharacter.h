@@ -7,6 +7,7 @@
 #include "Both/CharacterAnimation.h"
 #include "Code/Utility/Health.h"
 #include "BaseCharacter.generated.h"
+
 UCLASS(Abstract)
 class END2025_API ABaseCharacter : public ACharacter
 {

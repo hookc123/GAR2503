@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Code/Actors/BaseCharacter.h"
+#include "Code/Actors/AIC_CodeAgentController.h"
 #include "BaseAgent.generated.h"
 
 /**

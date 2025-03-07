@@ -8,7 +8,7 @@ public class END2025 : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore","AnimGraphRuntime","UMG", "AIModule", "GameplayTasks", "NavigationSystem" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore","AnimGraphRuntime","UMG", "AIModule", "GameplayTasks", "NavigationSystem" ,"UVEditorTools"});
 
 		//PrivateDependencyModuleNames.AddRange(new string[] {  });
 
