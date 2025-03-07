@@ -83,5 +83,5 @@ void ABaseAgent::HandleActionFinished()
 void ABaseAgent::UpdateBlackBoardHealth(float ratio)
 {
     AAIController* controller = Cast<AAIController>(GetController());
-    controller->GetBlackboardComponent()->SetValueAsFloat("Health", ratio);
+    controller->GetBlackboardComponent()->SetValueAsFloat("HealthRatio", ratio);
 }
