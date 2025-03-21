@@ -28,7 +28,7 @@ protected:
     virtual void OnConstruction(const FTransform& Transform) override;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
-    FName TintName = "Tint";
+    FName TintName;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
     FLinearColor Color;
@@ -45,5 +45,7 @@ private:
     UFUNCTION()
     void UpdateBlackBoardHealth(float ratio);
 
-	FName ActionFinishedMessage = "ActionFinished";
+	FName ActionFinishedMessage;
+
+    AAIController* controller;
 };

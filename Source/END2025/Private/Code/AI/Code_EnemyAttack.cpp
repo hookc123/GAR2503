@@ -32,8 +32,10 @@ EBTNodeResult::Type UCode_EnemyAttack::ExecuteTask(UBehaviorTreeComponent& Owner
 		enemyInterface->Attack();
 		UE_LOG(LogTemp, Warning, TEXT("BTTask_EnemyAttack: Enemy Attacking!"));
 
+		UBTTaskNode::WaitForMessage(OwnerComp, FinishedMessage);
+
 		// Finish task successfully
-		return EBTNodeResult::Succeeded;
+		return EBTNodeResult::InProgress;
 	}
 	else
 	{

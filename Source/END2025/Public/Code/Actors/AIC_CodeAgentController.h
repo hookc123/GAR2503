@@ -25,8 +25,6 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = AI)
 	void OnPossess(APawn* InPawn) override;
 
-	UFUNCTION()
-	void HandlePerception(AActor* Actor, FAIStimulus Stimulus);
 
 	UPROPERTY(BlueprintReadOnly, Category = AI)
 	UBehaviorTree* BehaviorTree;
@@ -35,5 +33,7 @@ protected:
 	FName PlayerName;
 
 private:
+	UFUNCTION()
+	void HandlePerception(AActor* Actor, FAIStimulus Stimulus);
 
 };

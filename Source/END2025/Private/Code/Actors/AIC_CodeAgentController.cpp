@@ -4,12 +4,22 @@
 #include "Code/Actors/AIC_CodeAgentController.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
-
+#include "Perception/AISenseConfig_Sight.h"
 
 AAIC_CodeAgentController::AAIC_CodeAgentController()
 {
 	PerceptionComponent = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("AIPerceptionComponent"));
 	PerceptionComponent->OnTargetPerceptionUpdated.AddDynamic(this, &AAIC_CodeAgentController::HandlePerception);
+
+	UAISenseConfig_Sight* SightConfig = NULL;
+	SightConfig->SightRadius = 900.0f;
+	SightConfig->LoseSightRadius = 1100.0f;
+	SightConfig->PeripheralVisionAngleDegrees = 40.0f;
+	SightConfig->DetectionByAffiliation.bDetectEnemies = false;
+	SightConfig->DetectionByAffiliation.bDetectNeutrals = true;
+	SightConfig->DetectionByAffiliation.bDetectFriendlies = false;
+
+	PerceptionComponent->ConfigureSense(*SightConfig);
 }
 
 void AAIC_CodeAgentController::BeginPlay()

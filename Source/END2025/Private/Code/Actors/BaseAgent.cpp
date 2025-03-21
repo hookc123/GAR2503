@@ -8,9 +8,10 @@
 
 
 
-ABaseAgent::ABaseAgent()
+ABaseAgent::ABaseAgent() : TintName("Tint"), ActionFinishedMessage("ActionFinished")
 {
 	PrimaryActorTick.bCanEverTick = true;
+	controller = Cast<AAIController>(GetController());
 }
 
 void ABaseAgent::Attack()
@@ -71,7 +72,6 @@ void ABaseAgent::HandleHurt(float ratio)
 
 void ABaseAgent::HandleActionFinished()
 {
-    AAIController* controller = Cast<AAIController>(GetController());
 	FAIMessage message;
 	message.MessageName = ActionFinishedMessage;
 	message.Sender = this;
@@ -82,5 +82,13 @@ void ABaseAgent::HandleActionFinished()
 
 void ABaseAgent::UpdateBlackBoardHealth(float ratio)
 {
-    AAIController* controller = Cast<AAIController>(GetController());
+    controller;
+	if (controller)
+	{
+		UBlackboardComponent* Blackboard = controller->GetBlackboardComponent();
+		if (Blackboard)
+		{
+			Blackboard->SetValueAsFloat("Health", ratio);
+		}
+	}
 }

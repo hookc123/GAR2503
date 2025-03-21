@@ -25,9 +25,9 @@ protected:
 private:
 
 	UPROPERTY(EditDefaultsOnly)
-	float Radius = 1000.0f;
+	float Radius;
 
 	UPROPERTY(EditDefaultsOnly)
-	FName LocationName = "Location";
+	FName LocationName;
 
 };
