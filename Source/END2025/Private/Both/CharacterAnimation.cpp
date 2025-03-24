@@ -20,6 +20,15 @@ void UCharacterAnimation::NativeUpdateAnimation(float DeltaSeconds)
 		PreviewWindowUpdate();
 }
 
+UCharacterAnimation::UCharacterAnimation() : velocity(0.0f), 
+direction(0.0f), 
+DebugFire(false), 
+DebugHit(false), 
+DebugDeath(false), 
+CurrentDeathAsset(nullptr), 
+ActionSlotName("Action")
+{}
+
 void UCharacterAnimation::FireAnimation()
 {
 	if (FireAsset)
@@ -41,6 +50,14 @@ void UCharacterAnimation::DeathAnimation()
 	CurrentDeathAsset = DeathAssets[ FMath::Rand() % (DeathAssets.Num() - 1) ];
 }
 
+void UCharacterAnimation::ReloadAnimation()
+{
+	if (ReloadAsset)
+	{
+		PlaySlotAnimationAsDynamicMontage(ReloadAsset, ActionSlotName);
+	}
+}
+
 void UCharacterAnimation::PreviewWindowUpdate_Implementation()
 {
 	if (DebugFire)
@@ -59,5 +76,10 @@ void UCharacterAnimation::PreviewWindowUpdate_Implementation()
 	{
 		DebugDeath = false;
 		DeathAnimation();
+	}
+	if (DebugReload)
+	{
+		DebugReload = false;
+		ReloadAnimation();
 	}
 }

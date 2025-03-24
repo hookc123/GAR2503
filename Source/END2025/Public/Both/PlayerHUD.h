@@ -7,6 +7,8 @@
 #include "Components/Image.h"
 #include "PlayerHUD.generated.h"
 
+class UTextBlock;
+
 /**
  * 
  */
@@ -14,15 +16,30 @@ UCLASS()
 class END2025_API UPlayerHUD : public UUserWidget
 {
 	GENERATED_BODY()
+
 public:
+
+
 
 	UFUNCTION(BlueprintCallable)
 	void SetHealth(float p);
+
+	UFUNCTION(BlueprintCallable)
+	void SetAmmo(float c, float m);
 
 	UFUNCTION(BlueprintPure)
 	FVector GetDestination();
 
     virtual void NativeTick(const FGeometry& MyGeometry, float DeltaTime) override;
+
+
+    UPROPERTY(meta = (BindWidget))
+    UTextBlock* CurrentAmmo;
+
+    UPROPERTY(meta = (BindWidget))
+    UTextBlock* MaxAmmo;
+
+
 
 protected:
 
@@ -46,10 +63,12 @@ protected:
 
     virtual void NativeConstruct() override;
     void UpdateCrosshair();
+
 private:
 	FVector EndPoint;
 
     UFUNCTION(BlueprintCallable, Category = "HUD")
     FVector2D GetCrosshairScreenPosition();
+
 
 };

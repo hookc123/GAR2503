@@ -51,6 +51,8 @@ void ABasePlayer::BeginPlay()
 			{
 				HealthComponent->OnHurt.AddDynamic(PlayerHUD, &UPlayerHUD::SetHealth);
 				HealthComponent->OnDeath.AddDynamic(PlayerHUD, &UPlayerHUD::SetHealth);
+				WeaponObject->OnAmmoChanged.AddDynamic(PlayerHUD, &UPlayerHUD::SetAmmo);
+				WeaponObject->ReloadAmmo();
 			}
 
 			if (HUDClass)
@@ -87,6 +89,7 @@ void ABasePlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("Strafe", this, &ABasePlayer::InputAxisStrafe);
 	
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ABasePlayer::OnFirePressed);
+	PlayerInputComponent->BindAction("ReloadInput", IE_Pressed, this, &ABasePlayer::OnReloadPressed);	
 }
 
 void ABasePlayer::HandleHurt(float ratio)

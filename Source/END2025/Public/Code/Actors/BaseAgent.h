@@ -20,6 +20,8 @@ public:
 
 	ABaseAgent();
 	virtual void Attack() override;
+    virtual void Reload() override;
+
 
 protected:  
 
@@ -44,6 +46,9 @@ private:
 
     UFUNCTION()
     void UpdateBlackBoardHealth(float ratio);
+
+    UFUNCTION()
+    void UpdateBlackBoardAmmo(float c, float m);
 
 	FName ActionFinishedMessage;
 

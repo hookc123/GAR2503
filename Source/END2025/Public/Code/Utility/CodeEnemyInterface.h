@@ -25,4 +25,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void Attack() = 0;
+
+	UFUNCTION(BlueprintCallable)
+	virtual void Reload() = 0;
+
 };

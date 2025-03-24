@@ -7,7 +7,7 @@
 #include <Kismet/KismetMathLibrary.h>
 
 // Sets default values
-ABaseRifle::ABaseRifle()
+ABaseRifle::ABaseRifle() : maxAmmo(5.0f)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -33,6 +33,7 @@ void ABaseRifle::BeginPlay()
 		UE_LOG(LogTemp, Error, TEXT("Owner Must be A Pawn"));
 		Destroy();
 	}
+	ReloadAmmo();
 }
 
 void ABaseRifle::Attack()
@@ -86,8 +87,8 @@ void ABaseRifle::Attack()
 
 		// Broadcast to the Delegate CallOnRifleAttack
 		CallOnRifleAttack.Broadcast();
-
-	}	
+		UseAmmo();
+	}
 }
 
 FVector ABaseRifle::GetSource()
@@ -105,6 +106,38 @@ void ABaseRifle::ActionStopped()
 	ActionHappening = false;
 }
 
+void ABaseRifle::ReloadAmmo()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Current Ammo: %f"), currentAmmo);
+	UE_LOG(LogTemp, Warning, TEXT("Max Ammo: %f"), maxAmmo);
+
+	currentAmmo = maxAmmo;
+	OnAmmoChanged.Broadcast(currentAmmo, maxAmmo);
+}
+
+void ABaseRifle::RequestReload()
+{
+	if (!ActionHappening)
+	{
+		ActionHappening = true;
+		OnReloadStart.Broadcast();
+	}
+	else
+		UE_LOG(LogTemp, Warning, TEXT("Cannot Reload Now"));
+	
+}
+
+void ABaseRifle::UseAmmo()
+{
+	if (currentAmmo <= 0)
+		currentAmmo = 0.0f;
+	else
+		currentAmmo--;
+	OnAmmoChanged.Broadcast(currentAmmo, maxAmmo);
+
+	UE_LOG(LogTemp, Warning, TEXT("Current Ammo: %f"), currentAmmo);
+}
+
 // Called every frame
 void ABaseRifle::Tick(float DeltaTime)
 {
@@ -114,7 +147,7 @@ void ABaseRifle::Tick(float DeltaTime)
 
 bool ABaseRifle::CanShoot() const
 {
-	return !ActionHappening;
+	return !ActionHappening && Alive && currentAmmo > 0;
 }
 
 void ABaseRifle::HandleActionFinished()

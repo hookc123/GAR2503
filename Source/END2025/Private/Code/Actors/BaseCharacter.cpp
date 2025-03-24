@@ -60,8 +60,11 @@ void ABaseCharacter::BeginPlay()
 	CharacterAnimation = Cast<UCharacterAnimation>(GetMesh()->GetAnimInstance());
 
 	if (WeaponObject && CharacterAnimation)
-    {
+	{
 		WeaponObject->CallOnRifleAttack.AddDynamic(CharacterAnimation, &UCharacterAnimation::FireAnimation);
+		CharacterAnimation->OnReloadNow.AddDynamic(WeaponObject, &ABaseRifle::ReloadAmmo);
+		CharacterAnimation->OnActionEnded.AddDynamic(WeaponObject, &ABaseRifle::ActionStopped);
+		WeaponObject->OnReloadStart.AddDynamic(CharacterAnimation, &UCharacterAnimation::ReloadAnimation);
 	}
 	HealthComponent->OnHurt.AddDynamic(this, &ABaseCharacter::HandleHurt);
 	HealthComponent->OnDeath.AddDynamic(this, &ABaseCharacter::HandleDeathStart);
@@ -84,6 +87,11 @@ void ABaseCharacter::OnFirePressed()
 		WeaponObject->Attack();
 	}
 
+}
+
+void ABaseCharacter::OnReloadPressed()
+{
+	WeaponObject->RequestReload();
 }
 
 

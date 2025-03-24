@@ -6,6 +6,8 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCallOnRifleAttack);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCallOnActionStopped);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FCallOnAmmoChanged, float, c, float, m);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCallOnReloadStart);
 
 UCLASS()
 class END2025_API ABaseRifle : public AActor
@@ -24,6 +26,18 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void OwnerDied();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Weapon)
+	float maxAmmo;
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void ReloadAmmo();
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void RequestReload();
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void ActionStopped();
 
 protected:
 	// Called when the game starts or when spawned
@@ -46,7 +60,7 @@ protected:
 
 	// Make custom event
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void ActionStopped();
+	void UseAmmo();
 
 	FTimerHandle timer;
 
@@ -64,6 +78,12 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = Delagate)
 	FCallOnActionStopped OnActionStopped;
 
+	UPROPERTY(BlueprintAssignable, Category = Delagate)
+	FCallOnAmmoChanged OnAmmoChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = Delagate)
+	FCallOnReloadStart OnReloadStart;
+
 	bool Alive = true;
 
 
@@ -72,5 +92,9 @@ private:
 	bool CanShoot() const;
 	bool ActionHappening;
 
+	float currentAmmo;
+
 	void HandleActionFinished();
+
+
 };

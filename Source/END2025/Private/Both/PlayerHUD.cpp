@@ -6,10 +6,18 @@
 #include "../END2025.h"
 #include <Kismet/GameplayStatics.h>
 #include <Blueprint/SlateBlueprintLibrary.h>
+#include "Components/TextBlock.h"
 
 void UPlayerHUD::SetHealth(float p)
 {
 	HealthBar->SetPercent(p);
+}
+
+void UPlayerHUD::SetAmmo(float c, float m)
+{
+    CurrentAmmo->SetText(FText::AsNumber(c));
+    MaxAmmo->SetText(FText::AsNumber(m));
+
 }
 
 FVector UPlayerHUD::GetDestination()

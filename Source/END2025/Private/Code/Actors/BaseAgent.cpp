@@ -24,6 +24,14 @@ void ABaseAgent::Attack()
     }
 }
 
+void ABaseAgent::Reload()
+{
+	if (WeaponObject)
+	{
+		WeaponObject->RequestReload();
+	}
+}
+
 void ABaseAgent::BeginPlay()
 {
     Super::BeginPlay();
@@ -37,6 +45,8 @@ void ABaseAgent::BeginPlay()
         WeaponObject->OnActionStopped.AddDynamic(this, &ABaseAgent::HandleActionFinished);
     }
 	UpdateBlackBoardHealth(1.0f);  
+	WeaponObject->OnAmmoChanged.AddDynamic(this, &ABaseAgent::UpdateBlackBoardAmmo);
+	WeaponObject->ReloadAmmo();
 }
 
 
@@ -82,7 +92,9 @@ void ABaseAgent::HandleActionFinished()
 
 void ABaseAgent::UpdateBlackBoardHealth(float ratio)
 {
-    controller;
+
+	UE_LOG(LogTemp, Log, TEXT("Updating Blackboard Health: %f"), ratio);
+
 	if (controller)
 	{
 		UBlackboardComponent* Blackboard = controller->GetBlackboardComponent();
@@ -91,4 +103,17 @@ void ABaseAgent::UpdateBlackBoardHealth(float ratio)
 			Blackboard->SetValueAsFloat("Health", ratio);
 		}
 	}
+}
+
+void ABaseAgent::UpdateBlackBoardAmmo(float c, float m)
+{
+    if (controller)
+    {
+        UBlackboardComponent* Blackboard = controller->GetBlackboardComponent();
+        if (Blackboard)
+        {
+            Blackboard->SetValueAsFloat("Ammo",c);
+        }
+    }
+
 }
