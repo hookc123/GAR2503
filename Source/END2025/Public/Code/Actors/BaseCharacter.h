@@ -6,10 +6,11 @@
 #include "GameFramework/Character.h"
 #include "Both/CharacterAnimation.h"
 #include "Code/Utility/Health.h"
+#include "Code/Utility/CodePickupInterface.h"	
 #include "BaseCharacter.generated.h"
 
 UCLASS(Abstract)
-class END2025_API ABaseCharacter : public ACharacter
+class END2025_API ABaseCharacter : public ACharacter, public ICodePickupInterface
 {
 	GENERATED_BODY()
 
@@ -38,6 +39,7 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	virtual void HandleDeathStart(float ratio);
 
+	virtual bool CanPickupHealth_Implementation() override;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

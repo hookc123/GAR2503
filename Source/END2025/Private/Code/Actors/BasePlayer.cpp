@@ -53,6 +53,7 @@ void ABasePlayer::BeginPlay()
 				HealthComponent->OnDeath.AddDynamic(PlayerHUD, &UPlayerHUD::SetHealth);
 				WeaponObject->OnAmmoChanged.AddDynamic(PlayerHUD, &UPlayerHUD::SetAmmo);
 				WeaponObject->ReloadAmmo();
+				HealthComponent->OnHeal.AddDynamic(PlayerHUD, &UPlayerHUD::SetHealth);
 			}
 
 			if (HUDClass)
@@ -107,6 +108,11 @@ void ABasePlayer::HandleDeathStart(float ratio)
 	PlayerHUD->SetHealth(ratio);
 	DisableInput(PlayerController);
 
+}
+
+bool ABasePlayer::CanPickupHealth_Implementation()
+{
+	return true;
 }
 
 void ABasePlayer::InputAxisMoveForward(float AxisValue)

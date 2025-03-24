@@ -24,7 +24,7 @@ void UHealth::BeginPlay()
 
 void UHealth::HandleDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
 {
-	if (Damage <= 0.0f)
+	if (Damage == 0.0f)
 	{
 		return;
 	}
@@ -33,8 +33,21 @@ void UHealth::HandleDamage(AActor* DamagedActor, float Damage, const UDamageType
 	CurrentHealth = FMath::Clamp(CurrentHealth - Damage, 0.0f, MaxHealth);
 
 	// Fire OnHurt event with the ratio
-	OnHurt.Broadcast(CurrentHealth / MaxHealth);
+	if (Damage > 0.0f)
+	{
+		// Took damage
+		OnHurt.Broadcast(CurrentHealth/MaxHealth);
 
+		if (CurrentHealth <= 0.0f)
+		{
+			OnDeath.Broadcast(0.0f);
+		}
+	}
+	else
+	{
+		// Healed
+		OnHeal.Broadcast(CurrentHealth / MaxHealth);
+	}
 	// If health reaches 0, trigger death
 	if (CurrentHealth <= 0.0f)
 	{

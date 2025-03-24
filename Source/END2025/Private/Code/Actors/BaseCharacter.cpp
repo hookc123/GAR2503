@@ -35,6 +35,11 @@ void ABaseCharacter::HandleDeathStart(float ratio)
 	WeaponObject->OwnerDied();
 }
 
+bool ABaseCharacter::CanPickupHealth_Implementation()
+{
+	return false;
+}
+
 // Called when the game starts or when spawned
 void ABaseCharacter::BeginPlay()
 {

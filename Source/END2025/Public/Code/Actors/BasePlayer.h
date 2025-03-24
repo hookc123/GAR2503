@@ -42,6 +42,8 @@ protected:
 
 	void HandleDeathStart(float ratio) override;
 
+	virtual bool CanPickupHealth_Implementation() override;
+
 
 private:
 	UPROPERTY()
