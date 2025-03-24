@@ -11,7 +11,6 @@ AAIC_CodeAgentController::AAIC_CodeAgentController()
 	PerceptionComponent = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("AIPerceptionComponent"));
 	PerceptionComponent->OnTargetPerceptionUpdated.AddDynamic(this, &AAIC_CodeAgentController::HandlePerception);
 
-	UAISenseConfig_Sight* SightConfig;
 	SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("SightConfig"));
 	SightConfig->SightRadius = 900.0f;
 	SightConfig->LoseSightRadius = 1100.0f;
@@ -44,10 +43,6 @@ void AAIC_CodeAgentController::HandlePerception(AActor* Actor, FAIStimulus Stimu
 	if (Stimulus.WasSuccessfullySensed())
 	{
 		Blackboard->SetValueAsObject(PlayerName, Actor);
-	}
-	else
-	{
-		Blackboard->ClearValue(PlayerName);
 	}
 
 }

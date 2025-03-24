@@ -104,6 +104,7 @@ void ABaseRifle::OwnerDied()
 void ABaseRifle::ActionStopped()
 {
 	ActionHappening = false;
+	HandleActionFinished();
 }
 
 void ABaseRifle::ReloadAmmo()

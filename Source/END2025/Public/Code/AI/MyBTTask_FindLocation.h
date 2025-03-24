@@ -16,6 +16,8 @@ class END2025_API UMyBTTask_FindLocation : public UBTTaskNode
 	GENERATED_BODY()
 	
 public:
+	//Contructor
+	UMyBTTask_FindLocation();
 
 
 protected:

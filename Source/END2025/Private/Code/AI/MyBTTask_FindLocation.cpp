@@ -7,6 +7,11 @@
 #include "BehaviorTree/BlackboardComponent.h"
 
 
+UMyBTTask_FindLocation::UMyBTTask_FindLocation() : Radius(1000.f), LocationName("Location")
+{
+	NodeName = "Find Location";
+}
+
 EBTNodeResult::Type UMyBTTask_FindLocation::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	AAIController* controller = OwnerComp.GetAIOwner();

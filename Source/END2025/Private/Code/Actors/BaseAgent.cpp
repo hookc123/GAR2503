@@ -11,7 +11,6 @@
 ABaseAgent::ABaseAgent() : TintName("Tint"), ActionFinishedMessage("ActionFinished")
 {
 	PrimaryActorTick.bCanEverTick = true;
-	controller = Cast<AAIController>(GetController());
 }
 
 void ABaseAgent::Attack()
@@ -36,11 +35,13 @@ void ABaseAgent::BeginPlay()
 {
     Super::BeginPlay();
 
+    controller = Cast<AAIController>(GetController());
+
     if (!WeaponObject)
     {
         UE_LOG(LogTemp, Error, TEXT("WeaponObject is NULL for Agent: %s"), *GetName());
     }
-    if (WeaponObject)
+   if (WeaponObject)
     {
         WeaponObject->OnActionStopped.AddDynamic(this, &ABaseAgent::HandleActionFinished);
     }
@@ -82,6 +83,7 @@ void ABaseAgent::HandleHurt(float ratio)
 
 void ABaseAgent::HandleActionFinished()
 {
+    UE_LOG(LogTemp, Warning, TEXT("HandleActionFinished() called!"));
 	FAIMessage message;
 	message.MessageName = ActionFinishedMessage;
 	message.Sender = this;
@@ -100,9 +102,14 @@ void ABaseAgent::UpdateBlackBoardHealth(float ratio)
 		UBlackboardComponent* Blackboard = controller->GetBlackboardComponent();
 		if (Blackboard)
 		{
-			Blackboard->SetValueAsFloat("Health", ratio);
+			Blackboard->SetValueAsFloat("HealthRatio", ratio);
 		}
+        else
+			UE_LOG(LogTemp, Error, TEXT("Blackboard is NULL for Agent: %s"), *GetName());
 	}
+    else
+		UE_LOG(LogTemp, Error, TEXT("Blackboard is NULL for Agent: %s"), *GetName());
+	
 }
 
 void ABaseAgent::UpdateBlackBoardAmmo(float c, float m)

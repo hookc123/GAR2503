@@ -6,6 +6,12 @@
 #include "Code/Utility/CodeEnemyInterface.h"
 
 
+UCode_EnemyAttack::UCode_EnemyAttack() : FinishedMessage("ActionFinished")
+{
+	NodeName = "Enemy Attack";
+	bNotifyTaskFinished = true;
+}
+
 EBTNodeResult::Type UCode_EnemyAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	// Get AI Controller
@@ -32,7 +38,7 @@ EBTNodeResult::Type UCode_EnemyAttack::ExecuteTask(UBehaviorTreeComponent& Owner
 		enemyInterface->Attack();
 		UE_LOG(LogTemp, Warning, TEXT("BTTask_EnemyAttack: Enemy Attacking!"));
 
-		UBTTaskNode::WaitForMessage(OwnerComp, FinishedMessage);
+		WaitForMessage(OwnerComp, FinishedMessage);
 
 		// Finish task successfully
 		return EBTNodeResult::InProgress;

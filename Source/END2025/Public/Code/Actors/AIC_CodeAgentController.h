@@ -6,6 +6,8 @@
 #include "AIController.h"
 #include "AIC_CodeAgentController.generated.h"
 
+class UAISenseConfig_Sight;
+
 /**
  * 
  */
@@ -35,5 +37,9 @@ protected:
 private:
 	UFUNCTION()
 	void HandlePerception(AActor* Actor, FAIStimulus Stimulus);
+
+	UPROPERTY()
+	UAISenseConfig_Sight* SightConfig;
+
 
 };
