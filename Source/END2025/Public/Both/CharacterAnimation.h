@@ -5,8 +5,7 @@
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
 #include "CharacterAnimation.generated.h"
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnReloadNow);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnActionEnded);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAnimDeleg);
 
 /**
  * 
@@ -22,22 +21,35 @@ public:
 	UCharacterAnimation();
 
     UPROPERTY(BlueprintAssignable)
-    FOnReloadNow OnReloadNow;
+    FAnimDeleg OnReloadNow;
 
     UPROPERTY(BlueprintAssignable)
-    FOnActionEnded OnActionEnded;
+    FAnimDeleg OnActionEnded;
 
-    UFUNCTION(BlueprintCallable, Category = "Animation")
+    UFUNCTION(BlueprintNativeEvent, Category = "Animation")
     void FireAnimation();
+    virtual void FireAnimation_Implementation();
+    UFUNCTION(BlueprintCallable)
+    void PlayFireAnimation();
 
-    UFUNCTION(BlueprintCallable, Category = "Animation")
+
+    UFUNCTION(BlueprintNativeEvent, Category = "Animation")
     void HitAnimation(float notused = 0.0f);
+    virtual void HitAnimation_Implementation(float notused = 0.0f);
+    UFUNCTION(BlueprintCallable)
+    void PlayHitAnimation(float Ratio, bool NotUsed);
 
-    UFUNCTION(BlueprintCallable, Category = "Animation")
+    UFUNCTION(BlueprintNativeEvent, Category = "Animation")
     void DeathAnimation();
+    virtual void DeathAnimation_Implementation();
+    UFUNCTION(BlueprintCallable)
+    void PlayDeathAnimation();
 
-    UFUNCTION(BlueprintCallable, Category = "Animation")
+    UFUNCTION(BlueprintNativeEvent, Category = "Animation")
     void ReloadAnimation();
+    virtual void ReloadAnimation_Implementation();
+    UFUNCTION(BlueprintCallable)
+    void PlayReloadAnimation();
 
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Assets)
@@ -83,6 +95,5 @@ protected:
 
     UFUNCTION(BlueprintNativeEvent)
     void PreviewWindowUpdate();
-
     virtual void PreviewWindowUpdate_Implementation();
 };

@@ -29,7 +29,7 @@ CurrentDeathAsset(nullptr),
 ActionSlotName("Action")
 {}
 
-void UCharacterAnimation::FireAnimation()
+void UCharacterAnimation::FireAnimation_Implementation()
 {
 	if (FireAsset)
 	{
@@ -37,26 +37,52 @@ void UCharacterAnimation::FireAnimation()
 	}
 }
 
-void UCharacterAnimation::HitAnimation(float notUsed)
+void UCharacterAnimation::PlayFireAnimation()
+{
+	FireAnimation();
+}
+
+void UCharacterAnimation::HitAnimation_Implementation(float notused)
 {
 	if (HitAsset)
 	{
 		PlaySlotAnimationAsDynamicMontage(HitAsset, ActionSlotName);
 	}
+
 }
 
-void UCharacterAnimation::DeathAnimation()
+void UCharacterAnimation::PlayHitAnimation(float Ratio, bool NotUsed)
 {
-	CurrentDeathAsset = DeathAssets[ FMath::Rand() % (DeathAssets.Num() - 1) ];
+	HitAnimation(Ratio);
 }
 
-void UCharacterAnimation::ReloadAnimation()
+void UCharacterAnimation::DeathAnimation_Implementation()
+{
+	if (DeathAssets.Num() > 0)
+	{
+		CurrentDeathAsset = DeathAssets[FMath::RandRange(0, DeathAssets.Num() - 1)];
+		PlaySlotAnimationAsDynamicMontage(CurrentDeathAsset, ActionSlotName);
+	}
+}
+
+void UCharacterAnimation::PlayDeathAnimation()
+{
+	DeathAnimation();
+}
+
+void UCharacterAnimation::ReloadAnimation_Implementation()
 {
 	if (ReloadAsset)
 	{
 		PlaySlotAnimationAsDynamicMontage(ReloadAsset, ActionSlotName);
 	}
 }
+
+void UCharacterAnimation::PlayReloadAnimation()
+{
+	ReloadAnimation();
+}
+
 
 void UCharacterAnimation::PreviewWindowUpdate_Implementation()
 {

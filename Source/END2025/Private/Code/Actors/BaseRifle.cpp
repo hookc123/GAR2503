@@ -66,16 +66,14 @@ void ABaseRifle::Attack()
 	
 	pos = GetSource();
 
-	FActorSpawnParameters spawnParams;
-	spawnParams.Owner = controller;
-	spawnParams.Instigator = ParentPawn;
-
-	if(CanShoot()&& Alive)
-	SpawnedProjectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, pos, rotator, spawnParams);
-
-	if (SpawnedProjectile)
+	if (CanShoot() && Alive)
 	{
 		ActionHappening = true;
+		FActorSpawnParameters spawnParams;
+		spawnParams.Owner = controller;
+		spawnParams.Instigator = ParentPawn;
+		SpawnedProjectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, pos, rotator, spawnParams);
+
 		UE_LOG(LogTemp, Warning, TEXT("Successfully spawned projectile!"));
 
 		// Define a delegate for the event
@@ -83,12 +81,14 @@ void ABaseRifle::Attack()
 		TimerDelegate.BindUFunction(this, FName("ActionStopped"));
 
 		// Set a timer that calls ActionStopped using the delegate
+		FTimerHandle timer;
 		GetWorldTimerManager().SetTimer(timer, TimerDelegate, ResetTime, false);
 
 		// Broadcast to the Delegate CallOnRifleAttack
 		CallOnRifleAttack.Broadcast();
 		UseAmmo();
 	}
+
 }
 
 FVector ABaseRifle::GetSource()
@@ -104,7 +104,7 @@ void ABaseRifle::OwnerDied()
 void ABaseRifle::ActionStopped()
 {
 	ActionHappening = false;
-	HandleActionFinished();
+	OnActionStopped.Broadcast();
 }
 
 void ABaseRifle::ReloadAmmo()
@@ -139,20 +139,9 @@ void ABaseRifle::UseAmmo()
 	UE_LOG(LogTemp, Warning, TEXT("Current Ammo: %f"), currentAmmo);
 }
 
-// Called every frame
-void ABaseRifle::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
 bool ABaseRifle::CanShoot() const
 {
 	return !ActionHappening && Alive && currentAmmo > 0;
 }
 
-void ABaseRifle::HandleActionFinished()
-{
-	OnActionStopped.Broadcast();
-}
 

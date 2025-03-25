@@ -4,10 +4,8 @@
 #include "GameFramework/Actor.h"
 #include "BaseRifle.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCallOnRifleAttack);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCallOnActionStopped);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWeaponActionDeleg);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FCallOnAmmoChanged, float, c, float, m);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCallOnReloadStart);
 
 UCLASS()
 class END2025_API ABaseRifle : public AActor
@@ -27,9 +25,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void OwnerDied();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Weapon)
-	float maxAmmo;
-
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void ReloadAmmo();
 
@@ -38,6 +33,19 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void ActionStopped();
+
+	// Create a delegate
+	UPROPERTY(BlueprintAssignable, Category = Delagate)
+	FWeaponActionDeleg CallOnRifleAttack;
+
+	UPROPERTY(BlueprintAssignable, Category = Delagate)
+	FWeaponActionDeleg OnActionStopped;
+
+	UPROPERTY(BlueprintAssignable, Category = Delagate)
+	FCallOnAmmoChanged OnAmmoChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = Delagate)
+	FWeaponActionDeleg OnReloadStart;
 
 protected:
 	// Called when the game starts or when spawned
@@ -62,39 +70,18 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void UseAmmo();
 
-	FTimerHandle timer;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Weapon)
 	float ResetTime;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Create a delegate
-	UPROPERTY(BlueprintAssignable, Category = Delagate)
-	FCallOnRifleAttack CallOnRifleAttack;
-
-	UPROPERTY(BlueprintAssignable, Category = Delagate)
-	FCallOnActionStopped OnActionStopped;
-
-	UPROPERTY(BlueprintAssignable, Category = Delagate)
-	FCallOnAmmoChanged OnAmmoChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = Delagate)
-	FCallOnReloadStart OnReloadStart;
-
-	bool Alive = true;
-
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Weapon)
+	float maxAmmo;
 
 private:
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	bool CanShoot() const;
 	bool ActionHappening;
-
 	float currentAmmo;
-
-	void HandleActionFinished();
+	bool Alive = true;
 
 
 };
