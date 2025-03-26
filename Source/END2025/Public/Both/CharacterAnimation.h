@@ -28,28 +28,23 @@ public:
 
     UFUNCTION(BlueprintNativeEvent, Category = "Animation")
     void FireAnimation();
-    virtual void FireAnimation_Implementation();
     UFUNCTION(BlueprintCallable)
-    void PlayFireAnimation();
-
+    virtual void FireAnimation_Implementation();
 
     UFUNCTION(BlueprintNativeEvent, Category = "Animation")
     void HitAnimation(float notused = 0.0f);
-    virtual void HitAnimation_Implementation(float notused = 0.0f);
     UFUNCTION(BlueprintCallable)
-    void PlayHitAnimation(float Ratio, bool NotUsed);
+    virtual void HitAnimation_Implementation(float notused = 0.0f);
 
     UFUNCTION(BlueprintNativeEvent, Category = "Animation")
     void DeathAnimation();
-    virtual void DeathAnimation_Implementation();
     UFUNCTION(BlueprintCallable)
-    void PlayDeathAnimation();
+    virtual void DeathAnimation_Implementation();
 
     UFUNCTION(BlueprintNativeEvent, Category = "Animation")
     void ReloadAnimation();
-    virtual void ReloadAnimation_Implementation();
     UFUNCTION(BlueprintCallable)
-    void PlayReloadAnimation();
+    virtual void ReloadAnimation_Implementation();
 
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Assets)

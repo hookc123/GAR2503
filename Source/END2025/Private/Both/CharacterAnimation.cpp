@@ -37,11 +37,6 @@ void UCharacterAnimation::FireAnimation_Implementation()
 	}
 }
 
-void UCharacterAnimation::PlayFireAnimation()
-{
-	FireAnimation();
-}
-
 void UCharacterAnimation::HitAnimation_Implementation(float notused)
 {
 	if (HitAsset)
@@ -49,11 +44,6 @@ void UCharacterAnimation::HitAnimation_Implementation(float notused)
 		PlaySlotAnimationAsDynamicMontage(HitAsset, ActionSlotName);
 	}
 
-}
-
-void UCharacterAnimation::PlayHitAnimation(float Ratio, bool NotUsed)
-{
-	HitAnimation(Ratio);
 }
 
 void UCharacterAnimation::DeathAnimation_Implementation()
@@ -65,11 +55,6 @@ void UCharacterAnimation::DeathAnimation_Implementation()
 	}
 }
 
-void UCharacterAnimation::PlayDeathAnimation()
-{
-	DeathAnimation();
-}
-
 void UCharacterAnimation::ReloadAnimation_Implementation()
 {
 	if (ReloadAsset)
@@ -77,12 +62,6 @@ void UCharacterAnimation::ReloadAnimation_Implementation()
 		PlaySlotAnimationAsDynamicMontage(ReloadAsset, ActionSlotName);
 	}
 }
-
-void UCharacterAnimation::PlayReloadAnimation()
-{
-	ReloadAnimation();
-}
-
 
 void UCharacterAnimation::PreviewWindowUpdate_Implementation()
 {
