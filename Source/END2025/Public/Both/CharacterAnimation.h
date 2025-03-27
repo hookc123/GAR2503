@@ -26,6 +26,9 @@ public:
     UPROPERTY(BlueprintAssignable)
     FAnimDeleg OnActionEnded;
 
+    UPROPERTY(BlueprintAssignable)
+    FAnimDeleg OnDeathEnded;
+
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Animation")
     void FireAnimation();
     virtual void FireAnimation_Implementation();
@@ -84,4 +87,8 @@ protected:
     UFUNCTION(BlueprintNativeEvent)
     void PreviewWindowUpdate();
     virtual void PreviewWindowUpdate_Implementation();
+
+private:
+    UFUNCTION()
+    void DeathEnded();
 };

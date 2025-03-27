@@ -6,6 +6,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "CodeGameMode.generated.h"
 
+class UCodeResultsWidget;
+
 /**
  * 
  */
@@ -16,4 +18,34 @@ class END2025_API ACodeGameMode : public AGameModeBase
 	
 public:
 	ACodeGameMode();
+
+    UFUNCTION(BlueprintCallable)
+    void AddEnemy(AActor* EnemyActor);
+
+//protected:
+
+    virtual void BeginPlay() override;
+
+    UPROPERTY(EditDefaultsOnly)
+    TSubclassOf<UCodeResultsWidget> ResultsWidgetClass;
+
+    UPROPERTY()
+    UCodeResultsWidget* ResultsWidgetObj;
+
+    UPROPERTY()
+    int CurrentEnemyCount;
+
+    UPROPERTY()
+    class ABasePlayer* CurrentPlayer;
+
+private:
+    UPROPERTY(EditAnywhere)
+    int NumberOfEnemies;
+
+    UFUNCTION(BlueprintCallable)
+    void RemoveEnemy(AActor* DestroyedActor);
+
+    UFUNCTION(BlueprintCallable)
+    void RemovePlayer();
+
 };

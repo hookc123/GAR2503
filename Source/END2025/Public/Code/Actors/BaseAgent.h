@@ -35,9 +35,6 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
     FLinearColor Color;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
-    class UCharacterAnimation* AnimationBP;
-
 	virtual void HandleHurt(float ratio) override;
 private:
 
@@ -49,6 +46,9 @@ private:
 
     UFUNCTION()
     void UpdateBlackBoardAmmo(float c, float m);
+
+    UFUNCTION()
+    void CallDestroy();
 
 	FName ActionFinishedMessage;
 

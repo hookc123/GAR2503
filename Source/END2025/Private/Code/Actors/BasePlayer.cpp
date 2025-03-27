@@ -6,6 +6,8 @@
 #include "Camera/CameraComponent.h"
 #include "Code/Actors/BaseRifle.h"
 #include <Kismet/KismetMathLibrary.h>
+#include "Code/Utility/Health.h"
+#include "Both/CharacterAnimation.h"
 
 ABasePlayer::ABasePlayer()
 {
@@ -54,6 +56,7 @@ void ABasePlayer::BeginPlay()
 				WeaponObject->OnAmmoChanged.AddDynamic(PlayerHUD, &UPlayerHUD::SetAmmo);
 				WeaponObject->ReloadAmmo();
 				HealthComponent->OnHeal.AddDynamic(PlayerHUD, &UPlayerHUD::SetHealth);
+				CharacterAnimation->OnDeathEnded.AddDynamic(this, &ABasePlayer::PlayerLost);
 			}
 
 			if (HUDClass)
@@ -135,6 +138,24 @@ void ABasePlayer::InputAxisStrafe(float AxisValue)
 
 	// Strafe the actor 
 	AddMovementInput(WorldDirection, AxisValue);
+}
+
+void ABasePlayer::PlayerLost()
+{
+	OnPlayerLost.Broadcast();
+	PlayerController->bShowMouseCursor = true;
+	HUDWidget->RemoveFromParent();
+	HUDWidget = nullptr;
+
+}
+
+void ABasePlayer::PlayerWin()
+{
+	DisableInput(PlayerController);
+	HUDWidget->RemoveFromParent();
+	HUDWidget = nullptr;
+	UE_LOG(LogTemp, Log, TEXT("PlayerWin() triggered. HUD removed and input disabled."));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "PlayerWin() triggered. HUD removed and input disabled.");
 }
 
 

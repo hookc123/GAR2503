@@ -7,6 +7,10 @@
 #include "Both/PlayerHUD.h"
 #include "BasePlayer.generated.h"
 
+//OnplayerLostDelegate
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPlayerDeleg);
+
+
 /**
  * 
  */
@@ -18,6 +22,14 @@ public:
 	ABasePlayer();
 
 	UUserWidget* GetHUDWidget() { return HUDWidget; }
+
+	UPROPERTY(BlueprintAssignable)
+	FPlayerDeleg OnPlayerLost;
+
+	UFUNCTION()
+	void PlayerWin();
+
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -52,5 +64,7 @@ private:
 	void InputAxisMoveForward(float AxisValue);
 
 	void InputAxisStrafe(float AxisValue);
+	UFUNCTION()
+	void PlayerLost();
 
 };

@@ -14,9 +14,29 @@ void UCodeGameInstance::LoadFirstLevel()
 	LoadLevelSafe(FirstLevelIndex);
 }
 
+void UCodeGameInstance::LoadCurrentLevel()
+{
+	LoadLevelSafe(CurrentLevelIndex);
+}
+
+void UCodeGameInstance::LoadMainMenu()
+{
+	LoadLevelSafe(0);
+}
+
 void UCodeGameInstance::QuitTheGame()
 {
-    FGenericPlatformMisc::RequestExit(false);
+    UWorld* World = GetWorld();
+    if (!World) return;
+
+    APlayerController* PlayerController = World->GetFirstPlayerController();
+    if (!PlayerController) return;
+
+#if WITH_EDITOR
+    PlayerController->ConsoleCommand(TEXT("quit background"));
+#else
+    PlayerController->ConsoleCommand(TEXT("quit"));
+#endif   
 }
 
 void UCodeGameInstance::LoadLevelSafe(int LevelIndex)
@@ -31,7 +51,7 @@ void UCodeGameInstance::LoadLevelSafe(int LevelIndex)
         }
         return;
     }
-
+	CurrentLevelIndex = LevelIndex;
     FName LevelName = GameLevels[LevelIndex];
     UWorld* World = GetWorld();
 

@@ -52,6 +52,20 @@ void UCharacterAnimation::DeathAnimation_Implementation()
 	{
 		CurrentDeathAsset = DeathAssets[FMath::RandRange(0, DeathAssets.Num() - 1)];
 		//PlaySlotAnimationAsDynamicMontage(CurrentDeathAsset, ActionSlotName);
+		// Get animation duration
+		const float AnimDuration = CurrentDeathAsset->GetPlayLength();
+		FTimerHandle DeathEndTimerHandle;
+		// Set timer to call DeathEnded after the animation duration
+		if (UWorld* World = GetWorld())
+		{
+			World->GetTimerManager().SetTimer(
+				DeathEndTimerHandle,
+				this,
+				&UCharacterAnimation::DeathEnded,
+				AnimDuration,
+				false
+			);
+		}
 	}
 }
 
@@ -87,4 +101,9 @@ void UCharacterAnimation::PreviewWindowUpdate_Implementation()
 		DebugReload = false;
 		ReloadAnimation();
 	}
+}
+
+void UCharacterAnimation::DeathEnded()
+{
+	OnDeathEnded.Broadcast();
 }

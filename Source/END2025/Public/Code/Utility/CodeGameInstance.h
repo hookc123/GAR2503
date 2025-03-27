@@ -18,8 +18,13 @@ public:
 
 	UCodeGameInstance();
 
+	UFUNCTION()
 	void LoadFirstLevel();
-
+	UFUNCTION()
+	void LoadCurrentLevel();
+	UFUNCTION()
+	void LoadMainMenu();
+	UFUNCTION()
 	void QuitTheGame();
 
 
@@ -36,6 +41,9 @@ private:
 	TArray<FName> GameLevels;
 
 	UPROPERTY(EditAnywhere, Category = GameLevels)
-	int32 FirstLevelIndex;
+	int FirstLevelIndex;
+
+	UPROPERTY(EditAnywhere, Category = GameLevels)
+	int CurrentLevelIndex;
 
 };

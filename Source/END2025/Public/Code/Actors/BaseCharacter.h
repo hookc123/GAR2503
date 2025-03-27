@@ -8,7 +8,7 @@
 #include "BaseCharacter.generated.h"
 
 class UHealth;
-class UChildActorComponent;
+//class UChildActorComponent;
 
 UCLASS(Abstract)
 class END2025_API ABaseCharacter : public ACharacter, public ICodePickupInterface

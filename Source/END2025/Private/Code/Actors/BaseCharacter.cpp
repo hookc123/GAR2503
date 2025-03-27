@@ -33,7 +33,7 @@ void ABaseCharacter::HandleHurt(float ratio)
 
 void ABaseCharacter::HandleDeathStart(float ratio)
 {
-	CharacterAnimation->DeathAnimation();
+	CharacterAnimation->DeathAnimation_Implementation();
 	this->SetActorEnableCollision(false);
 	WeaponObject->OwnerDied();
 }
