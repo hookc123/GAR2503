@@ -50,7 +50,6 @@ void ABaseAgent::BeginPlay()
 	WeaponObject->ReloadAmmo();
 }
 
-
 void ABaseAgent::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);

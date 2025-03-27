@@ -2,6 +2,9 @@
 
 
 #include "Code/Actors/BaseCharacter.h"
+#include "Both/CharacterAnimation.h"
+#include "Code/Utility/Health.h"
+#include "Code/Utility/CodePickupInterface.h"	
 #include "Code/Actors/BaseRifle.h"
 
 // Sets default values

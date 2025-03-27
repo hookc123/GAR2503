@@ -48,11 +48,6 @@ void UHealth::HandleDamage(AActor* DamagedActor, float Damage, const UDamageType
 		// Healed
 		OnHeal.Broadcast(CurrentHealth / MaxHealth);
 	}
-	// If health reaches 0, trigger death
-	if (CurrentHealth <= 0.0f)
-	{
-		OnDeath.Broadcast(0.0);
-	}
 }
 
 // Called every frame

@@ -51,7 +51,7 @@ void UCharacterAnimation::DeathAnimation_Implementation()
 	if (DeathAssets.Num() > 0)
 	{
 		CurrentDeathAsset = DeathAssets[FMath::RandRange(0, DeathAssets.Num() - 1)];
-		PlaySlotAnimationAsDynamicMontage(CurrentDeathAsset, ActionSlotName);
+		//PlaySlotAnimationAsDynamicMontage(CurrentDeathAsset, ActionSlotName);
 	}
 }
 

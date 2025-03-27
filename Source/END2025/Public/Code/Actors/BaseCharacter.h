@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Both/CharacterAnimation.h"
-#include "Code/Utility/Health.h"
 #include "Code/Utility/CodePickupInterface.h"	
 #include "BaseCharacter.generated.h"
+
+class UHealth;
+class UChildActorComponent;
 
 UCLASS(Abstract)
 class END2025_API ABaseCharacter : public ACharacter, public ICodePickupInterface

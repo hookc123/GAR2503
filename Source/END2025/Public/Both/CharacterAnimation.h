@@ -26,24 +26,20 @@ public:
     UPROPERTY(BlueprintAssignable)
     FAnimDeleg OnActionEnded;
 
-    UFUNCTION(BlueprintNativeEvent, Category = "Animation")
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Animation")
     void FireAnimation();
-    UFUNCTION(BlueprintCallable)
     virtual void FireAnimation_Implementation();
 
-    UFUNCTION(BlueprintNativeEvent, Category = "Animation")
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Animation")
     void HitAnimation(float notused = 0.0f);
-    UFUNCTION(BlueprintCallable)
     virtual void HitAnimation_Implementation(float notused = 0.0f);
 
-    UFUNCTION(BlueprintNativeEvent, Category = "Animation")
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Animation")
     void DeathAnimation();
-    UFUNCTION(BlueprintCallable)
     virtual void DeathAnimation_Implementation();
 
-    UFUNCTION(BlueprintNativeEvent, Category = "Animation")
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Animation")
     void ReloadAnimation();
-    UFUNCTION(BlueprintCallable)
     virtual void ReloadAnimation_Implementation();
 
 protected:
@@ -52,9 +48,6 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Assets)
     UAnimSequenceBase* HitAsset;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Assets)
-    UAnimSequenceBase* DeathAsset;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Assets)
     UAnimSequenceBase* CurrentDeathAsset;
