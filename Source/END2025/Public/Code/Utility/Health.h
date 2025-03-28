@@ -46,7 +46,7 @@ public:
 
 private:
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	float CurrentHealth;
 
 };

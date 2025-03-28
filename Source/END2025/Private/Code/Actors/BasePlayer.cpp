@@ -82,25 +82,26 @@ void ABasePlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	// Do not forget to call parent function
 	//Super::SetupPlayerInputComponent(PlayerInputComponent);
 	// Bind the axis inputs
-	
+
 	// Use Pawn Control Rotation in the spring arm
 	SpringArm->bUsePawnControlRotation = true;
-	PlayerInputComponent->BindAxis("TurnRight"	, this, &ABasePlayer::AddControllerYawInput  );
-	PlayerInputComponent->BindAxis("LookUp"		, this, &ABasePlayer::AddControllerPitchInput);
+	PlayerInputComponent->BindAxis("TurnRight", this, &ABasePlayer::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("LookUp", this, &ABasePlayer::AddControllerPitchInput);
 
 	// Player Movement
 	PlayerInputComponent->BindAxis("MoveForward", this, &ABasePlayer::InputAxisMoveForward);
 	PlayerInputComponent->BindAxis("Strafe", this, &ABasePlayer::InputAxisStrafe);
-	
+
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ABasePlayer::OnFirePressed);
-	PlayerInputComponent->BindAction("ReloadInput", IE_Pressed, this, &ABasePlayer::OnReloadPressed);	
+	PlayerInputComponent->BindAction("ReloadInput", IE_Pressed, this, &ABasePlayer::OnReloadPressed);
 }
 
 void ABasePlayer::HandleHurt(float ratio)
 {
 	Super::HandleHurt(ratio);
 	UPlayerHUD* PlayerHUD = Cast<UPlayerHUD>(HUDWidget);
-	PlayerHUD->SetHealth(ratio);
+	if (PlayerHUD)
+		PlayerHUD->SetHealth(ratio);
 
 }
 
@@ -114,6 +115,11 @@ void ABasePlayer::HandleDeathStart(float ratio)
 }
 
 bool ABasePlayer::CanPickupHealth_Implementation()
+{
+	return true;
+}
+
+bool ABasePlayer::CanPickupAmmo_Implementation()
 {
 	return true;
 }
@@ -157,6 +163,5 @@ void ABasePlayer::PlayerWin()
 	UE_LOG(LogTemp, Log, TEXT("PlayerWin() triggered. HUD removed and input disabled."));
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "PlayerWin() triggered. HUD removed and input disabled.");
 }
-
 
 

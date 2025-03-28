@@ -29,6 +29,9 @@ public:
 	void ReloadAmmo();
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void IncreaseMaxAmmo(float ammo = 5.f);
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void RequestReload();
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon")

@@ -1,13 +1,10 @@
 #include "Code/Utility/Health.h"
 
 // Sets default values for this component's properties
-UHealth::UHealth()
+UHealth::UHealth() : MaxHealth(5.0f), CurrentHealth(MaxHealth)
 {
 	PrimaryComponentTick.bCanEverTick = false;
-	MaxHealth = 5.0f;
-	CurrentHealth = MaxHealth;
 }
-
 
 // Called when the game starts
 void UHealth::BeginPlay()
@@ -18,6 +15,7 @@ void UHealth::BeginPlay()
 	AActor* Owner = GetOwner();
 	if (Owner)
 	{
+		UE_LOG(LogTemp, Error, TEXT("Binding %s to OnTakeAnyDamage"), *Owner->GetName());
 		Owner->OnTakeAnyDamage.AddDynamic(this, &UHealth::HandleDamage);
 	}
 }
@@ -38,6 +36,25 @@ void UHealth::HandleDamage(AActor* DamagedActor, float Damage, const UDamageType
 		// Took damage
 		OnHurt.Broadcast(CurrentHealth/MaxHealth);
 
+		//Debug Log health and Actor name
+		FString message = FString::Printf(
+			TEXT("Actor: %s has %.1f health remaining"),
+			*DamagedActor->GetName(),
+			CurrentHealth
+		);
+
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *message);
+
+		if (GEngine && DamagedActor)
+		{
+			GEngine->AddOnScreenDebugMessage(
+				-1,
+				5.0f,
+				FColor::Red,
+				message
+			);
+		}
+		///////////////////////////
 		if (CurrentHealth <= 0.0f)
 		{
 			OnDeath.Broadcast(0.0f);

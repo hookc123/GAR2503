@@ -29,6 +29,7 @@ public:
 	UFUNCTION()
 	void PlayerWin();
 
+	virtual FGenericTeamId GetGenericTeamId() const override { return TeamID; }
 
 protected:
 
@@ -55,6 +56,7 @@ protected:
 	void HandleDeathStart(float ratio) override;
 
 	virtual bool CanPickupHealth_Implementation() override;
+	virtual bool CanPickupAmmo_Implementation() override;
 
 
 private:

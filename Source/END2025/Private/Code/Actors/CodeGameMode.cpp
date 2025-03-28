@@ -6,6 +6,7 @@
 #include "Code/Actors/CodeMenuPlayerController.h"
 #include "Code/Widgets/CodeResultsWidget.h"
 #include "EngineUtils.h"
+#include "Code/Actors/CodeSpawner.h"
 
 
 ACodeGameMode::ACodeGameMode() : NumberOfEnemies(0), CurrentEnemyCount(0), CurrentPlayer(nullptr)
@@ -35,6 +36,15 @@ void ACodeGameMode::BeginPlay()
 		}
     }
 
+	for (TActorIterator<ACodeSpawner> It(GetWorld()); It; ++It)
+	{
+		ACodeSpawner* Spawner = *It;
+		if (Spawner)
+		{
+            AddEnemy(Spawner);
+		}
+	}
+
     // Create UI Widget
     if (ResultsWidgetClass)
     {
@@ -53,12 +63,19 @@ void ACodeGameMode::AddEnemy(AActor* EnemyActor)
     {
         EnemyActor->OnDestroyed.AddDynamic(this, &ACodeGameMode::RemoveEnemy);
         NumberOfEnemies++;
+        GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::Red, FString::Printf(TEXT("Enemies: %d"), NumberOfEnemies));
+    }
+	else if (!EnemyActor)
+    {
+        UE_LOG(LogTemp, Error, TEXT("EnemyActor is NULL!"));
+        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("EnemyActor is NULL!"));
     }
 }
 
 void ACodeGameMode::RemoveEnemy(AActor* DestroyedActor)
 {
     NumberOfEnemies--;
+    GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::Red, FString::Printf(TEXT("ENEMY DESTROYED! Enemies Left: %d"), NumberOfEnemies));
     if (NumberOfEnemies <= 0)
     {
         UE_LOG(LogTemp, Warning, TEXT("YOU WIN!"));
@@ -84,8 +101,6 @@ void ACodeGameMode::RemovePlayer()
         // Show widget on screen
         ResultsWidgetObj->AddToViewport();
 
-        // Optionally tell the widget it’s a loss
-        //ResultsWidgetObj->SetLose(); // Assuming you implemented this in CodeResultsWidget
 
         if (APlayerController* PC = GetWorld()->GetFirstPlayerController())
         {

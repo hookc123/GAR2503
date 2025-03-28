@@ -9,3 +9,8 @@ bool ICodePickupInterface::CanPickupHealth_Implementation()
 {
 	return false;
 }
+
+bool ICodePickupInterface::CanPickupAmmo_Implementation()
+{
+	return false;
+}

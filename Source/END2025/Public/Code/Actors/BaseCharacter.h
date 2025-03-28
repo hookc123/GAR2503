@@ -4,20 +4,28 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Code/Utility/CodePickupInterface.h"	
+#include "Code/Utility/CodePickupInterface.h"
+#include "GenericTeamAgentInterface.h"
 #include "BaseCharacter.generated.h"
 
 class UHealth;
-//class UChildActorComponent;
+class ABaseRifle;
+class UCharacterAnimation;
 
 UCLASS(Abstract)
-class END2025_API ABaseCharacter : public ACharacter, public ICodePickupInterface
+class END2025_API ABaseCharacter : public ACharacter, public ICodePickupInterface, public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
 	ABaseCharacter();
+
+	UFUNCTION()
+	ABaseRifle* GetWeaponObject();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Team", meta = (AllowPrivateAccess = "true"))
+	FGenericTeamId TeamID;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Weapon)
@@ -27,10 +35,10 @@ protected:
 	UChildActorComponent* ChildActorComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
-	class ABaseRifle* WeaponObject;
+	ABaseRifle* WeaponObject;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
-	class UCharacterAnimation* CharacterAnimation;
+	UCharacterAnimation* CharacterAnimation;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Health)
 	UHealth* HealthComponent;

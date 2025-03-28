@@ -7,7 +7,7 @@
 #include "../End2025.h"
 #include "UObject/ConstructorHelpers.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include <Kismet/GameplayStatics.h>
+#include "Engine/DamageEvents.h"
 
 // Sets default values
 AProjectile::AProjectile()
@@ -49,7 +49,7 @@ void AProjectile::BeginPlay()
 	SphereCollision->SetWorldScale3D(Scale);
 
 	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AProjectile::K2_DestroyActor, DestroyTime);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AProjectile::CallDestroy, DestroyTime);
 	
 }
 
@@ -65,13 +65,23 @@ void AProjectile::HandleOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
 	if (OtherActor && OtherActor != this)
 	{
 		UE_LOG(LogTemp, Log, TEXT("Projectile overlapped with: %s"), *OtherActor->GetName());
-		UGameplayStatics::ApplyDamage(OtherActor, Damage, OwnerController, this, NULL);
-	}
-	Destroy();
+
+		// Set up FDamageEvent to pass into TakeDamage
+		FDamageEvent DamageEvent;
+
+		// Call TakeDamage directly on the OtherActor
+		OtherActor->TakeDamage(Damage, DamageEvent, OwnerController, this);
+	}	
+	CallDestroy();
 }
 
 void AProjectile::HandleHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
 	UE_LOG(Game, Log, TEXT("Hello"));
+}
+
+void AProjectile::CallDestroy()
+{
+	Destroy();
 }
 

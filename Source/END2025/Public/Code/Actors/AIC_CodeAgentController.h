@@ -22,6 +22,8 @@ public:
 
 	virtual void BeginPlay() override;
 
+	virtual void SetGenericTeamId(const FGenericTeamId& NewTeamID) override;
+
 protected:
 
 	UFUNCTION(BlueprintCallable, Category = AI)

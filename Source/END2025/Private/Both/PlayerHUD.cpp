@@ -10,6 +10,7 @@
 
 void UPlayerHUD::SetHealth(float p)
 {
+	if (!HealthBar) return;
 	HealthBar->SetPercent(p);
 }
 
@@ -17,7 +18,6 @@ void UPlayerHUD::SetAmmo(float c, float m)
 {
     CurrentAmmo->SetText(FText::AsNumber(c));
     MaxAmmo->SetText(FText::AsNumber(m));
-
 }
 
 FVector UPlayerHUD::GetDestination()

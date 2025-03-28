@@ -4,7 +4,8 @@
 #include "Code/Actors/CodeDamagePickup.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/BoxComponent.h"
-#include "Kismet/GameplayStatics.h"
+#include "Engine/DamageEvents.h"
+
 
 ACodeDamagePickup::ACodeDamagePickup() : baseDamage(2.f)
 {
@@ -21,7 +22,12 @@ ACodeDamagePickup::ACodeDamagePickup() : baseDamage(2.f)
 void ACodeDamagePickup::HandlePickup(AActor* otherActor, FHitResult hitResult)
 {
 	Super::HandlePickup(otherActor, hitResult);
-	UGameplayStatics::ApplyDamage(otherActor, baseDamage, NULL, this, NULL);
+
+	FDamageEvent DamageEvent;
+
+	// Call TakeDamage directly on the OtherActor
+	otherActor->TakeDamage(baseDamage, DamageEvent, Cast<AController>(GetOwner()), this);
+
 
 	UE_LOG(LogTemp, Warning, TEXT("Damage Applied: %f"), baseDamage);
 }

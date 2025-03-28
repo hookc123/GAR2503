@@ -22,6 +22,7 @@ public:
 	virtual void Attack() override;
     virtual void Reload() override;
 
+    virtual FGenericTeamId GetGenericTeamId() const override { return TeamID; }
 
 protected:  
 

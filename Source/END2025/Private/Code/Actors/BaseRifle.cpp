@@ -116,6 +116,12 @@ void ABaseRifle::ReloadAmmo()
 	OnAmmoChanged.Broadcast(currentAmmo, maxAmmo);
 }
 
+void ABaseRifle::IncreaseMaxAmmo(float ammo)
+{
+	maxAmmo += 5;
+	OnAmmoChanged.Broadcast(currentAmmo, maxAmmo);
+}
+
 void ABaseRifle::RequestReload()
 {
 	if (!ActionHappening)

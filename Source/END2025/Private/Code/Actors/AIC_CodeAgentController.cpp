@@ -15,8 +15,8 @@ AAIC_CodeAgentController::AAIC_CodeAgentController()
 	SightConfig->SightRadius = 900.0f;
 	SightConfig->LoseSightRadius = 1100.0f;
 	SightConfig->PeripheralVisionAngleDegrees = 40.0f;
-	SightConfig->DetectionByAffiliation.bDetectEnemies = false;
-	SightConfig->DetectionByAffiliation.bDetectNeutrals = true;
+	SightConfig->DetectionByAffiliation.bDetectEnemies = true;
+	SightConfig->DetectionByAffiliation.bDetectNeutrals = false;
 	SightConfig->DetectionByAffiliation.bDetectFriendlies = false;
 	SightConfig->AutoSuccessRangeFromLastSeenLocation = 600.0f;
 
@@ -30,11 +30,27 @@ void AAIC_CodeAgentController::BeginPlay()
 	OnPossess(GetPawn());
 }
 
+void AAIC_CodeAgentController::SetGenericTeamId(const FGenericTeamId& NewTeamID)
+{
+	Super::SetGenericTeamId(NewTeamID);
+	if (UAIPerceptionSystem* PerceptionSystem = UAIPerceptionSystem::GetCurrent(GetWorld()))
+	{
+		PerceptionSystem->UpdateListener(*GetPerceptionComponent());
+	}
+}
+
 void AAIC_CodeAgentController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
 	// Get the possessed pawn
+	if (IGenericTeamAgentInterface* TeamAgent = Cast<IGenericTeamAgentInterface>(InPawn))
+	{
+		//Degugging
+		UE_LOG(LogTemp, Warning, TEXT("Setting Team ID: %d"), TeamAgent->GetGenericTeamId());
 
+
+		SetGenericTeamId(TeamAgent->GetGenericTeamId());
+	}
 	RunBehaviorTree(BehaviorTree);
 }
 

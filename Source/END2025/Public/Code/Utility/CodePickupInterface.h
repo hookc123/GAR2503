@@ -30,4 +30,8 @@ public:
 	bool CanPickupHealth();
 	virtual bool CanPickupHealth_Implementation();
 
+	UFUNCTION(BlueprintNativeEvent, Category = "Pickup")
+	bool CanPickupAmmo();
+	virtual bool CanPickupAmmo_Implementation();
+
 };

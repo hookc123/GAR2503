@@ -8,7 +8,7 @@
 #include "Code/Actors/BaseRifle.h"
 
 // Sets default values
-ABaseCharacter::ABaseCharacter()
+ABaseCharacter::ABaseCharacter(): TeamID(0)
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -24,6 +24,11 @@ ABaseCharacter::ABaseCharacter()
 	// Create Health Component
 	HealthComponent = CreateDefaultSubobject<UHealth>("HealthComponent");
 
+}
+
+ABaseRifle* ABaseCharacter::GetWeaponObject()
+{
+	return WeaponObject;
 }
 
 void ABaseCharacter::HandleHurt(float ratio)
@@ -76,6 +81,17 @@ void ABaseCharacter::BeginPlay()
 	}
 	HealthComponent->OnHurt.AddDynamic(this, &ABaseCharacter::HandleHurt);
 	HealthComponent->OnDeath.AddDynamic(this, &ABaseCharacter::HandleDeathStart);
+
+	// Set the team ID
+	AController* contrlr = GetController();
+	if (contrlr)
+	{
+		IGenericTeamAgentInterface* TeamAgent = Cast<IGenericTeamAgentInterface>(contrlr);
+		if (TeamAgent)
+		{
+			TeamAgent->SetGenericTeamId(TeamID);
+		}
+	}
 }
 
 void ABaseCharacter::OnFirePressed()
